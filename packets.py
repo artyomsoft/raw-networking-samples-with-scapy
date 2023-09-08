@@ -8,7 +8,7 @@ from utils import mac_to_bytes
 
 
 def create_arp_request(ip):
-    return Ether()/ARP(pdst=ip)
+    return Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=ip)
 
 
 def create_dhcp_discover(mac):

@@ -24,12 +24,12 @@ def mac_to_bytes(mac_addr: str) -> bytes:
 def send_receive_l2(packet):
     print('L2 REQUEST')
     print('==========')
-    packet.show()
+    packet.show2()
     response = srp1(packet, verbose=0, timeout=5)
     print('L2 RESPONSE')
     print('===========')
     if response:
-        response.show()
+        response.show2()
     else:
         print(response)
     return response
@@ -38,12 +38,12 @@ def send_receive_l2(packet):
 def send_receive_l3(packet):
     print('L3 REQUEST')
     print('==========')
-    packet.show()
+    packet.show2()
     response = sr1(packet, verbose=0, timeout=5)
     print('L3 RESPONSE')
     print('===========')
     if response:
-        response.show()
+        response.show2()
     else:
         print(response)
     return response
@@ -52,6 +52,6 @@ def send_receive_l3(packet):
 def send_l3(packet):
     print('L3 PACKET')
     print('==========')
-    packet.show()
+    packet.show2()
     scapy.sendrecv.send(packet, verbose=0)
 
