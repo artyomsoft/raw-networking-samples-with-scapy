@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "tcp ip"
+version = "0.1.0"
+description = "Protocols of the TCP/IP family. Theory and practice"
+authors = ["artyomsoft <@artyomsoft>"]
+readme = "README.md"
+packages = [
+    { include = "app", from = "." },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+scapy = "2.5.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "23.11.0"
+isort = "5.12.0"
+flake8 = "6.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+line_length = 100
+wrap_length = 100
+multi_line_output = 3
+combine_as_imports = true
+force_alphabetical_sort_within_sections = true
+overwrite_in_place = true
+skip_glob = []
