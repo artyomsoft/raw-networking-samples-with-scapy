@@ -4,11 +4,21 @@ import scapy
 from scapy.layers.dhcp import BOOTP
 from scapy.layers.inet import TCP
 
-import packets
-from packets import create_dhcp_discover, create_dhcp_request, create_ping_request, create_arp_request, \
-    create_dns_request
-from utils import send_receive_l2, send_receive_l3, get_default_interface_mac, mac_to_bytes, send_l3, \
-    get_default_interface_ip
+import app.packets
+from app.packets import (
+    create_arp_request,
+    create_dhcp_discover,
+    create_dhcp_request,
+    create_dns_request,
+    create_ping_request,
+)
+from app.utils import (
+    get_default_interface_ip,
+    get_default_interface_mac,
+    send_l3,
+    send_receive_l2,
+    send_receive_l3,
+)
 
 
 # DHCP
@@ -47,13 +57,18 @@ def create_and_close_tcp_connection(host, dport):
     src = get_default_interface_ip()
     sport = 12360
     seq = 1000
-    syn = packets.create_tcp_syn(src=src, sport=sport, dst=dst, dport=dport, seq=seq)
+    syn = app.packets.create_tcp_syn(src=src, sport=sport, dst=dst, dport=dport, seq=seq)
     response = send_receive_l3(syn)
-    ack = packets.create_tcp_ack(src=src, sport=sport, dst=dst, dport=dport, seq=response[TCP].ack, ack=response[TCP].seq+1)
+    ack = app.packets.create_tcp_ack(
+        src=src, sport=sport, dst=dst, dport=dport, seq=response[TCP].ack, ack=response[TCP].seq + 1
+    )
     send_l3(ack)
 
-    fin_ack = packets.create_tcp_fin_ack(src=src, sport=sport, dst=dst, dport=dport, seq=response[TCP].ack, ack=response[TCP].seq+1)
+    fin_ack = app.packets.create_tcp_fin_ack(
+        src=src, sport=sport, dst=dst, dport=dport, seq=response[TCP].ack, ack=response[TCP].seq + 1
+    )
     response = send_receive_l3(fin_ack)
-    ack = packets.create_tcp_ack(src=src, sport=sport, dst=dst, dport=dport, seq=response[TCP].ack, ack=response[TCP].seq+1)
+    ack = app.packets.create_tcp_ack(
+        src=src, sport=sport, dst=dst, dport=dport, seq=response[TCP].ack, ack=response[TCP].seq + 1
+    )
     send_l3(ack)
-
